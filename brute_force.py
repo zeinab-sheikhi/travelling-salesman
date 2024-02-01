@@ -1,25 +1,33 @@
 from itertools import permutations
 
 
-def calculate_total_distance(tour, distances):
-    total_distance = 0
-    for i in range(len(tour) - 1):
-        total_distance += distances[tour[i]][tour[i + 1]]
-    total_distance += distances[tour[-1]][tour[0]]
-    return total_distance
+class BruteForceTSP():
+    def __init__(self, graph, num_cities):
+        self.graph = graph
+        self.num_vertices = num_cities
+        self.total_cost = 0
+        self.path = None
+    
+    def find_path(self):
+        vertices = list(range(self.num_vertices))
+        min_cost = float('inf')
+        all_path = permutations(vertices)
+        
+        for path in all_path:
+            cost = self.calculate_cost(path)
+            if cost < min_cost:
+                min_cost = cost
+                self.path = path
+        
+    def calculate_cost(self, path):
+        total_cost = 0
+        for i in range(len(path) - 1):
+            total_cost += self.graph[path[i]][path[i + 1]]
+        total_cost += self.graph[path[-1]][path[0]]
+        return total_cost
+    
+    def get_shortest_path(self):
+        return self.path
 
-
-def brute_force_tsp(distances):
-    num_cities = len(distances)
-    cities = list(range(num_cities))
-    all_tours = permutations(cities)
-
-    min_dist = float('inf')
-    optimal_tour = None
-
-    for tour in all_tours:
-        total_distance = calculate_total_distance(tour, distances)
-        if total_distance < min_dist:
-            min_dist = total_distance
-            optimal_tour = tour
-    return {"path": optimal_tour, "cost": min_dist}
+    def get_total_cost(self):
+        return self.total_cost

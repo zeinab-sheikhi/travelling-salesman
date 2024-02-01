@@ -1,5 +1,6 @@
 import numpy as np
 from greedy import GreedyTSP
+from brute_force import BruteForceTSP
 
 # graph as the adjacency matrix
 graph1 = np.array([[0, 30, 19, 10, 7],
@@ -12,3 +13,9 @@ greedy = GreedyTSP(graph=graph1, num_cities=graph1.shape[0])
 greedy.find_shortest_path(city=0)
 print(greedy.get_total_cost())
 print(greedy.get_shortest_path())
+
+
+brute_force = BruteForceTSP(graph=graph1, num_cities=len(graph1))
+brute_force.find_path()
+print(brute_force.get_total_cost())
+print(brute_force.get_shortest_path())
